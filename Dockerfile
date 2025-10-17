@@ -8,6 +8,6 @@ RUN cargo build --release
 FROM debian:bookworm-slim
 WORKDIR /app
 COPY --from=builder /usr/src/app/target/release/tcgapi-service-mtg .
+ENV RUST_LOG=info
 EXPOSE 8000
 CMD ["./tcgapi-service-mtg"]
-

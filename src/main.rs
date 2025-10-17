@@ -1,4 +1,4 @@
-use actix_web::{get, App, HttpServer, Responder};
+use actix_web::{get, middleware::Logger, App, HttpServer, Responder};
 
 #[get("/health")]
 async fn health() -> impl Responder {
@@ -7,7 +7,9 @@ async fn health() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(health))
+    env_logger::init();
+
+    HttpServer::new(|| App::new().wrap(Logger::default()).service(health))
         .bind("127.0.0.1:8000")?
         .run()
         .await
